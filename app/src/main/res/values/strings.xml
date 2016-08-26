@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Metric Time</string>
+    <string name="widget_name">Metric Time Widget</string>
 </resources>
