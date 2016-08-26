@@ -113,8 +113,8 @@ public class MetricTimeWidgetProvider extends AppWidgetProvider {
         private void updateTime() {
             mCalendar.setTimeInMillis(System.currentTimeMillis());
 
-            DateFormat df = new SimpleDateFormat("hh:mm");
-            String currentTime = df.format(new Date());
+            MetricTime time = MetricTimeConverter.currentMetricTime();
+            String currentTime = String.format("%1$01d:%2$02d", time.hours, time.minutes);
 
             RemoteViews mRemoteViews = new RemoteViews(getPackageName(), R.layout.metric_time_widget);
             mRemoteViews.setTextViewText(R.id.widget1label, currentTime);
