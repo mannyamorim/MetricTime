@@ -24,8 +24,10 @@
     SOFTWARE.
 -->
 
-<resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-</resources>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="110dp"
+    android:minHeight="40dp"
+    android:updatePeriodMillis="1000"
+    android:initialLayout="@layout/metric_time_widget"
+    android:resizeMode="horizontal|vertical">
+</appwidget-provider>

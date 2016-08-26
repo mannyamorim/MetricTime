@@ -24,14 +24,28 @@
 
 package com.mathi_amorim.emmanuel.metrictime;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+public class MetricTimeConverter {
+    public static MetricTime convertToMetricTime(Calendar date) {
+        int milliseconds = (date.get(Calendar.HOUR_OF_DAY) * 3600000) + (date.get(Calendar.MINUTE) * 60000) + (date.get(Calendar.SECOND) * 1000) + (date.get(Calendar.MILLISECOND));
+        double metricMilliseconds = milliseconds / 0.864d;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        MetricTime time = new MetricTime();
+
+        time.hours = (int)Math.floor(metricMilliseconds / 10000000);
+        time.minutes = (int)Math.floor((metricMilliseconds % 10000000) / 100000);
+        time.seconds = (int)Math.floor((metricMilliseconds % 100000) / 1000);
+        time.milliseconds = (int)Math.floor(metricMilliseconds % 1000);
+
+        return time;
+    }
+
+    public static Calendar convertTo24HourTime(MetricTime time) {
+        return Calendar.getInstance(); //TODO finish method
+    }
+
+    public static MetricTime currentMetricTime() {
+        return convertToMetricTime(Calendar.getInstance());
     }
 }
