@@ -29,12 +29,34 @@
     <div class="container">
       <section id="main_content">
         <h1>
-<a id="metric-time" class="anchor" href="#metric-time" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Metric Time</h1>
+			<a id="metric-time" class="anchor" href="#metric-time" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Metric Time</h1>
 
-<p>This android application provides a widget for your home screen that shows the current time in Metric Time (Decimal Time). You can read more about this time format here <a href="https://en.wikipedia.org/wiki/Decimal_time">https://en.wikipedia.org/wiki/Decimal_time</a>.</p>
+			<p>This android application provides a widget for your home screen that shows the current time in Metric Time (Decimal Time). You can read more about this time format here <a href="https://en.wikipedia.org/wiki/Decimal_time">https://en.wikipedia.org/wiki/Decimal_time</a>.</p>
+
+			<p>The current time in metric time is: <div id="clock"/>.</p>
       </section>
     </div>
 
-    
+    <script>
+			function updateTime()
+			{
+				var d = new Date();
+				
+				var milliseconds = (d.getHours() * 3600000) + (d.getMinutes() * 60000) + (d.getSeconds() * 1000) + (d.getMilliseconds());
+				
+				var metricMilliseconds = milliseconds / 0.864;
+				
+				var metricHours = Math.floor(metricMilliseconds / 10000000);
+				var metricMinutes = Math.floor((metricMilliseconds % 10000000) / 100000);
+				var metricSeconds = Math.floor((metricMilliseconds % 100000) / 1000);
+				
+				metricMinutes = (metricMinutes < 10 ? "0" : "") + metricMinutes;
+				metricSeconds = (metricSeconds < 10 ? "0" : "") + metricSeconds;
+				
+				document.getElementById("clock").innerHTML = metricHours + ':' + metricMinutes + ':' + metricSeconds;
+			}
+			updateTime();
+			setInterval(updateTime, 864);
+		</script>
   </body>
 </html>
