@@ -1,0 +1,6 @@
+{
+  "name": "Metrictime",
+  "tagline": "This application allows you to add a widget to your home screen that shows the current time in Metric Time (Decimal Time).",
+  "body": "# Metric Time\r\n\r\nThis android application provides a widget for your home screen that shows the current time in Metric Time (Decimal Time). You can read more about this time format here https://en.wikipedia.org/wiki/Decimal_time.",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
