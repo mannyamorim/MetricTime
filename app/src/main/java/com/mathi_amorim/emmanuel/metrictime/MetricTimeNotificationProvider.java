@@ -24,15 +24,21 @@
 
 package com.mathi_amorim.emmanuel.metrictime;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 
-public class MainActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+import android.util.Log;
 
-        Config.context = this;
+public class MetricTimeNotificationProvider extends BroadcastReceiver {
+    @Override public void onReceive(Context context, Intent intent) {
+        Log.d("ReceivedABroadcast", "Received A Broadcast");
+
+        if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED") ||
+                intent.getAction().equals("android.intent.action.LOCKED_BOOT_COMPLETED")) {
+            Log.d("ReceivedBootCompleted", "Received BOOT_COMPLETED broadcast");
+
+            context.startService(new Intent(context, UpdateTimeService.class));
+        }
     }
 }
