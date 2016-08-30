@@ -44,8 +44,6 @@ import android.widget.RemoteViews;
 import java.util.Calendar;
 
 public final class UpdateTimeService extends Service {
-    static final String UPDATE_TIME = "com.mathi_amorim.emmanuel.metrictime.UPDATE_TIME";
-
     private static Calendar mCalendar;
     private final static IntentFilter mTimeIntentFilter = new IntentFilter();
     private final static IntentFilter mScreenIntentFilter = new IntentFilter();
@@ -113,7 +111,7 @@ public final class UpdateTimeService extends Service {
     private final BroadcastReceiver mTimeChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("Time Broadcast Received", "Time Broadcast Received");
+            Log.d(Config.LOG_TAG, "Time Broadcast Received");
 
             if(isScreenOn()) {
                 updateWidget();
@@ -126,7 +124,7 @@ public final class UpdateTimeService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals("android.intent.action.SCREEN_ON")) {
-                Log.d("Screen Broadcast", "Screen On");
+                Log.d(Config.LOG_TAG, "Screen Broadcast On");
 
                 updateWidget();
                 updateNotification();
@@ -134,7 +132,7 @@ public final class UpdateTimeService extends Service {
                 registerReceiver(mTimeChangedReceiver, mTimeIntentFilter);
             }
             else if(intent.getAction().equals("android.intent.action.SCREEN_OFF")) {
-                Log.d("Screen Broadcast", "Screen Off");
+                Log.d(Config.LOG_TAG, "Screen Broadcast Off");
 
                 unregisterReceiver(mTimeChangedReceiver);
             }
@@ -154,7 +152,7 @@ public final class UpdateTimeService extends Service {
         AppWidgetManager mAppWidgetManager = AppWidgetManager.getInstance(this);
         mAppWidgetManager.updateAppWidget(mComponentName, mRemoteViews);
 
-        Log.d("Time Update", "Widget Updated");
+        Log.d(Config.LOG_TAG, "Widget Updated");
     }
 
     private void updateNotification() {
@@ -165,12 +163,13 @@ public final class UpdateTimeService extends Service {
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("Metric Time")
-                        .setContentText(currentTime);
+                        .setContentText(currentTime)
+                        .setOngoing(true);
 
         int mNotificationId = 1;
         NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
-        Log.d("Time Update", "Notification Updated");
+        Log.d(Config.LOG_TAG, "Notification Updated");
     }
 }

@@ -24,6 +24,9 @@
 
 package com.mathi_amorim.emmanuel.metrictime;
 
+import android.content.Context;
+
 public final class Config {
-    public static MainActivity context = null;
+    public static Context context = null;
+    public static final String LOG_TAG = "Metric Time";
 }

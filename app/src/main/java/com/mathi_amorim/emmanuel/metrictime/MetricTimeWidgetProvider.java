@@ -24,38 +24,45 @@
 
 package com.mathi_amorim.emmanuel.metrictime;
 
-import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.IBinder;
-import android.widget.RemoteViews;
-
-import java.util.Calendar;
+import android.util.Log;
 
 public class MetricTimeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
 
+        Log.d(Config.LOG_TAG, "Widget Enabled, Starting Service");
+
+        Config.context = context;
         context.startService(new Intent(context, UpdateTimeService.class));
+
+        Log.d(Config.LOG_TAG, "Service Started");
     }
 
     @Override
     public void onDisabled(Context context) {
         super.onDisabled(context);
 
+        Log.d(Config.LOG_TAG, "Widget Disabled, Stopping Service");
+
         context.stopService(new Intent(context, UpdateTimeService.class));
+
+        Log.d(Config.LOG_TAG, "Service Stopped");
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
+        Log.d(Config.LOG_TAG, "Widget Update, Starting Service");
+
+        Config.context = context;
         context.startService(new Intent(context, UpdateTimeService.class));
+
+        Log.d(Config.LOG_TAG, "Service Started");
     }
 }

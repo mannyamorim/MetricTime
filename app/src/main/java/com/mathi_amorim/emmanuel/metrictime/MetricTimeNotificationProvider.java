@@ -32,13 +32,15 @@ import android.util.Log;
 
 public class MetricTimeNotificationProvider extends BroadcastReceiver {
     @Override public void onReceive(Context context, Intent intent) {
-        Log.d("ReceivedABroadcast", "Received A Broadcast");
-
         if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED") ||
                 intent.getAction().equals("android.intent.action.LOCKED_BOOT_COMPLETED")) {
-            Log.d("ReceivedBootCompleted", "Received BOOT_COMPLETED broadcast");
 
+            Log.d(Config.LOG_TAG, "Received BOOT_COMPLETED Broadcast, Starting Service...");
+
+            Config.context = context;
             context.startService(new Intent(context, UpdateTimeService.class));
+
+            Log.d(Config.LOG_TAG, "Service Started");
         }
     }
 }
