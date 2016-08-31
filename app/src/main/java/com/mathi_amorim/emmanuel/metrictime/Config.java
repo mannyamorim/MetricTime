@@ -24,39 +24,9 @@
 
 package com.mathi_amorim.emmanuel.metrictime;
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 
-public class MetricTimeWidgetProvider extends AppWidgetProvider {
-    @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
-
-        Log.d(Config.LOG_TAG, "Widget Enabled, Starting Service");
-
-        context.startService(new Intent(context, UpdateTimeService.class));
-
-        Log.d(Config.LOG_TAG, "Service Started");
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
-
-        Log.d(Config.LOG_TAG, "Widget Disabled");
-    }
-
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
-
-        Log.d(Config.LOG_TAG, "Widget Update, Starting Service");
-
-        context.startService(new Intent(context, UpdateTimeService.class));
-
-        Log.d(Config.LOG_TAG, "Service Started");
-    }
+public final class Config {
+    public static final String LOG_TAG = "Metric Time";
+    public static boolean showNotification = true;
 }

@@ -24,39 +24,41 @@
 
 package com.mathi_amorim.emmanuel.metrictime;
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 
-public class MetricTimeWidgetProvider extends AppWidgetProvider {
+public class SettingsActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
+    public static final String KEY_PREF_SHOW_NOTIFICATION = "pref_key_show_notification";
+
     @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        Log.d(Config.LOG_TAG, "Widget Enabled, Starting Service");
-
-        context.startService(new Intent(context, UpdateTimeService.class));
-
-        Log.d(Config.LOG_TAG, "Service Started");
+        // Display the fragment as the main content.
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
     }
 
     @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
-
-        Log.d(Config.LOG_TAG, "Widget Disabled");
+    protected void onResume() {
+        super.onResume();
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
+    protected void onPause() {
+        super.onPause();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
 
-        Log.d(Config.LOG_TAG, "Widget Update, Starting Service");
-
-        context.startService(new Intent(context, UpdateTimeService.class));
-
-        Log.d(Config.LOG_TAG, "Service Started");
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(KEY_PREF_SHOW_NOTIFICATION)) {
+            Config.showNotification = sharedPreferences.getBoolean(SettingsActivity.KEY_PREF_SHOW_NOTIFICATION, true);
+            startService(new Intent(this, UpdateTimeService.class));
+        }
     }
 }

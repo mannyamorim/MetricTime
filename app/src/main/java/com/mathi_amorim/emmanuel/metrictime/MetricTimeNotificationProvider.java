@@ -24,39 +24,22 @@
 
 package com.mathi_amorim.emmanuel.metrictime;
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
 import android.util.Log;
 
-public class MetricTimeWidgetProvider extends AppWidgetProvider {
-    @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
+public class MetricTimeNotificationProvider extends BroadcastReceiver {
+    @Override public void onReceive(Context context, Intent intent) {
+        if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED") ||
+                intent.getAction().equals("android.intent.action.LOCKED_BOOT_COMPLETED")) {
 
-        Log.d(Config.LOG_TAG, "Widget Enabled, Starting Service");
+            Log.d(Config.LOG_TAG, "Received BOOT_COMPLETED Broadcast, Starting Service...");
 
-        context.startService(new Intent(context, UpdateTimeService.class));
+            context.startService(new Intent(context, UpdateTimeService.class));
 
-        Log.d(Config.LOG_TAG, "Service Started");
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
-
-        Log.d(Config.LOG_TAG, "Widget Disabled");
-    }
-
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
-
-        Log.d(Config.LOG_TAG, "Widget Update, Starting Service");
-
-        context.startService(new Intent(context, UpdateTimeService.class));
-
-        Log.d(Config.LOG_TAG, "Service Started");
+            Log.d(Config.LOG_TAG, "Service Started");
+        }
     }
 }
