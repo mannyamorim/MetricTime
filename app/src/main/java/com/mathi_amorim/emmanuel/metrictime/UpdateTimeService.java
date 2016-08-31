@@ -93,7 +93,7 @@ public final class UpdateTimeService extends Service {
 
     public boolean isScreenOn() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            DisplayManager dm = (DisplayManager) Config.context.getSystemService(Context.DISPLAY_SERVICE);
+            DisplayManager dm = (DisplayManager) getSystemService(Context.DISPLAY_SERVICE);
             boolean screenOn = false;
             for (Display display : dm.getDisplays()) {
                 if (display.getState() != Display.STATE_OFF) {
@@ -102,7 +102,7 @@ public final class UpdateTimeService extends Service {
             }
             return screenOn;
         } else {
-            PowerManager pm = (PowerManager) Config.context.getSystemService(Context.POWER_SERVICE);
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             //noinspection deprecation
             return pm.isScreenOn();
         }
@@ -156,20 +156,22 @@ public final class UpdateTimeService extends Service {
     }
 
     private void updateNotification() {
-        MetricTime time = MetricTimeConverter.currentMetricTime();
-        String currentTime = String.format("%1$01d:%2$02d", time.hours, time.minutes);
+        if(Config.showNotification) {
+            MetricTime time = MetricTimeConverter.currentMetricTime();
+            String currentTime = String.format("%1$01d:%2$02d", time.hours, time.minutes);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("Metric Time")
-                        .setContentText(currentTime)
-                        .setOngoing(true);
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle("Metric Time")
+                            .setContentText(currentTime)
+                            .setOngoing(true);
 
-        int mNotificationId = 1;
-        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+            int mNotificationId = 1;
+            NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
-        Log.d(Config.LOG_TAG, "Notification Updated");
+            Log.d(Config.LOG_TAG, "Notification Updated");
+        }
     }
 }

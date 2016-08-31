@@ -37,7 +37,6 @@ public class MetricTimeWidgetProvider extends AppWidgetProvider {
 
         Log.d(Config.LOG_TAG, "Widget Enabled, Starting Service");
 
-        Config.context = context;
         context.startService(new Intent(context, UpdateTimeService.class));
 
         Log.d(Config.LOG_TAG, "Service Started");
@@ -47,11 +46,7 @@ public class MetricTimeWidgetProvider extends AppWidgetProvider {
     public void onDisabled(Context context) {
         super.onDisabled(context);
 
-        Log.d(Config.LOG_TAG, "Widget Disabled, Stopping Service");
-
-        context.stopService(new Intent(context, UpdateTimeService.class));
-
-        Log.d(Config.LOG_TAG, "Service Stopped");
+        Log.d(Config.LOG_TAG, "Widget Disabled");
     }
 
     @Override
@@ -60,7 +55,6 @@ public class MetricTimeWidgetProvider extends AppWidgetProvider {
 
         Log.d(Config.LOG_TAG, "Widget Update, Starting Service");
 
-        Config.context = context;
         context.startService(new Intent(context, UpdateTimeService.class));
 
         Log.d(Config.LOG_TAG, "Service Started");

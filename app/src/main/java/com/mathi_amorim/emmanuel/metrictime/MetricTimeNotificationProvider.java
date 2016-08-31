@@ -37,7 +37,6 @@ public class MetricTimeNotificationProvider extends BroadcastReceiver {
 
             Log.d(Config.LOG_TAG, "Received BOOT_COMPLETED Broadcast, Starting Service...");
 
-            Config.context = context;
             context.startService(new Intent(context, UpdateTimeService.class));
 
             Log.d(Config.LOG_TAG, "Service Started");
