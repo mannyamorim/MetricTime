@@ -24,20 +24,41 @@
 
 package com.mathi_amorim.emmanuel.metrictime;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
+import android.preference.PreferenceManager;
 
-public class MainActivity extends AppCompatActivity {
+public class SettingsActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
+    public static final String KEY_PREF_SHOW_NOTIFICATION = "pref_key_show_notification";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        // Display the fragment as the main content.
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
     }
 
-    public void settingsClicked(View view) {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(KEY_PREF_SHOW_NOTIFICATION)) {
+            Config.showNotification = sharedPreferences.getBoolean(SettingsActivity.KEY_PREF_SHOW_NOTIFICATION, true);
+            startService(new Intent(this, UpdateTimeService.class));
+        }
     }
 }

@@ -32,10 +32,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.hardware.display.DisplayManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Display;
@@ -67,6 +69,9 @@ public final class UpdateTimeService extends Service {
             registerReceiver(mTimeChangedReceiver, mTimeIntentFilter);
         }
         registerReceiver(mScreenChangedReceiver, mScreenIntentFilter);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        Config.showNotification = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SHOW_NOTIFICATION, true);
     }
 
     @Override
@@ -172,6 +177,10 @@ public final class UpdateTimeService extends Service {
             mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
             Log.d(Config.LOG_TAG, "Notification Updated");
+        }
+        else {
+            NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            mNotifyMgr.cancelAll();
         }
     }
 }

@@ -24,20 +24,15 @@
 
 package com.mathi_amorim.emmanuel.metrictime;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.preference.PreferenceFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class SettingsFragment extends PreferenceFragment {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
 
-    public void settingsClicked(View view) {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        // Load the preferences from an XML resource
+        addPreferencesFromResource(R.xml.preferences);
     }
 }
