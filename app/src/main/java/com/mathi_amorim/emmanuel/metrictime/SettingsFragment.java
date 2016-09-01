@@ -24,29 +24,15 @@
 
 package com.mathi_amorim.emmanuel.metrictime;
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
+import android.os.Bundle;
+import android.preference.PreferenceFragment;
 
-public class MetricTimeWidgetProvider extends AppWidgetProvider {
+public class SettingsFragment extends PreferenceFragment {
     @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        context.startService(new Intent(context, UpdateTimeService.class));
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
-    }
-
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
-
-        context.startService(new Intent(context, UpdateTimeService.class));
+        // Load the preferences from an XML resource
+        addPreferencesFromResource(R.xml.preferences);
     }
 }
