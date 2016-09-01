@@ -40,7 +40,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.view.Display;
 import android.widget.RemoteViews;
 
@@ -117,8 +116,6 @@ public final class UpdateTimeService extends Service {
     private final BroadcastReceiver mTimeChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(Config.LOG_TAG, "Time Broadcast Received");
-
             if(isScreenOn()) {
                 updateWidget();
                 updateNotification();
@@ -130,16 +127,12 @@ public final class UpdateTimeService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals("android.intent.action.SCREEN_ON")) {
-                Log.d(Config.LOG_TAG, "Screen Broadcast On");
-
                 updateWidget();
                 updateNotification();
 
                 registerReceiver(mTimeChangedReceiver, mTimeIntentFilter);
             }
             else if(intent.getAction().equals("android.intent.action.SCREEN_OFF")) {
-                Log.d(Config.LOG_TAG, "Screen Broadcast Off");
-
                 unregisterReceiver(mTimeChangedReceiver);
             }
         }
@@ -161,8 +154,6 @@ public final class UpdateTimeService extends Service {
         ComponentName mComponentName = new ComponentName(this, MetricTimeWidgetProvider.class);
         AppWidgetManager mAppWidgetManager = AppWidgetManager.getInstance(this);
         mAppWidgetManager.updateAppWidget(mComponentName, mRemoteViews);
-
-        Log.d(Config.LOG_TAG, "Widget Updated");
     }
 
     private void updateNotification() {
@@ -183,8 +174,6 @@ public final class UpdateTimeService extends Service {
             int mNotificationId = 1;
             NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             mNotifyMgr.notify(mNotificationId, mBuilder.build());
-
-            Log.d(Config.LOG_TAG, "Notification Updated");
         }
         else {
             NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

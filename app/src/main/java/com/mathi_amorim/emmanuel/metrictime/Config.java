@@ -27,6 +27,5 @@ package com.mathi_amorim.emmanuel.metrictime;
 import android.content.Context;
 
 public final class Config {
-    public static final String LOG_TAG = "Metric Time";
     public static boolean showNotification = true;
 }

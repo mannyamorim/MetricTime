@@ -35,11 +35,7 @@ public class MetricTimeNotificationProvider extends BroadcastReceiver {
         if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED") ||
                 intent.getAction().equals("android.intent.action.LOCKED_BOOT_COMPLETED")) {
 
-            Log.d(Config.LOG_TAG, "Received BOOT_COMPLETED Broadcast, Starting Service...");
-
             context.startService(new Intent(context, UpdateTimeService.class));
-
-            Log.d(Config.LOG_TAG, "Service Started");
         }
     }
 }
