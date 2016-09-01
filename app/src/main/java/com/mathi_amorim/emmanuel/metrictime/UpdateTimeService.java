@@ -25,6 +25,7 @@
 package com.mathi_amorim.emmanuel.metrictime;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
@@ -153,6 +154,10 @@ public final class UpdateTimeService extends Service {
         RemoteViews mRemoteViews = new RemoteViews(getPackageName(), R.layout.metric_time_widget);
         mRemoteViews.setTextViewText(R.id.widget1label, currentTime);
 
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        mRemoteViews.setOnClickPendingIntent(R.id.widget1label, pendingIntent);
+
         ComponentName mComponentName = new ComponentName(this, MetricTimeWidgetProvider.class);
         AppWidgetManager mAppWidgetManager = AppWidgetManager.getInstance(this);
         mAppWidgetManager.updateAppWidget(mComponentName, mRemoteViews);
@@ -165,12 +170,15 @@ public final class UpdateTimeService extends Service {
             MetricTime time = MetricTimeConverter.currentMetricTime();
             String currentTime = String.format("%1$01d:%2$02d", time.hours, time.minutes);
 
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle("Metric Time")
-                            .setContentText(currentTime)
-                            .setOngoing(true);
+            Intent intent = new Intent(this, SettingsActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+            mBuilder.setContentTitle("Metric Time");
+            mBuilder.setContentText(currentTime);
+            mBuilder.setOngoing(true);
+            mBuilder.setContentIntent(pendingIntent);
 
             int mNotificationId = 1;
             NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
