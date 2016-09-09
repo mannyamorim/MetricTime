@@ -42,7 +42,17 @@ public class MetricTimeConverter {
     }
 
     public static Calendar convertTo24HourTime(MetricTime time) {
-        return Calendar.getInstance(); //TODO finish method
+        int metricMilliseconds = (time.hours * 10000000) + (time.minutes * 100000) + (time.seconds * 1000) + (time.milliseconds);
+        double milliseconds = metricMilliseconds * 0.864d;
+
+        Calendar date = Calendar.getInstance();
+
+        date.set(Calendar.HOUR, (int)Math.floor(milliseconds / 360000));
+        date.set(Calendar.MINUTE, (int)Math.floor((milliseconds % 360000) / 60000));
+        date.set(Calendar.SECOND, (int)Math.floor((milliseconds % 60000) / 1000));
+        date.set(Calendar.MILLISECOND, (int)Math.floor(milliseconds % 1000));
+
+        return date;
     }
 
     public static MetricTime currentMetricTime() {
